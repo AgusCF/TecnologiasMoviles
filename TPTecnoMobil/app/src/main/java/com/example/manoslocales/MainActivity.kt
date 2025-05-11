@@ -90,6 +90,7 @@ fun LoginScreen() {
             onValueChange = { username = it },
             label = { Text(text = "Usuario") },
             singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier.fillMaxWidth()
         )
 
