@@ -1,5 +1,6 @@
 package com.example.manoslocales
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -29,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -49,7 +52,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//---------------------------------
+//--------------------------------- LOGIN
 @Composable
 fun LoginScreen() {
     // Estados para almacenar lo que escribe el usuario
@@ -118,6 +121,16 @@ fun LoginScreen() {
         ) {
             Text("Iniciar Sesión")
         }
+        //Boton de olvide mi contrasenia
+        Button(
+            onClick = {
+                // Aquí iría la lógica de validación del login
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors( containerColor = Color.LightGray,contentColor = Color.Black)
+        ) {
+            Text("Olvide mi contraseña")
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -134,5 +147,98 @@ fun LoginScreen() {
                 }
             )
         }
+    }
+}
+//--------------------------------- Registrarse
+@Composable
+fun RegistroScreen() {
+    // Estados para almacenar los datos del usuario
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Registrarse", fontSize = 28.sp)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Campo: Usuario
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Nombre de usuario") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Campo: Email
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Campo: Contraseña
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Contraseña") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Campo: Confirmar contraseña
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = { Text("Confirmar contraseña") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Botón para crear la cuenta
+        Button(
+            onClick = {
+                // Validar campos (más adelante)
+                // Crear cuenta (todavía sin lógica real)
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Crear cuenta")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Enlace opcional para volver al login
+        Text(
+            text = "¿Ya tenés cuenta? Iniciá sesión",
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.clickable {
+                // En un futuro: volver al LoginActivity
+            }
+        )
     }
 }
