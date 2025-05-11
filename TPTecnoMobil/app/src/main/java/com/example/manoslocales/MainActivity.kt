@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ManosLocalesTheme {
-                RegistroScreen()
+                LoginScreen()
             }
         }
     }
