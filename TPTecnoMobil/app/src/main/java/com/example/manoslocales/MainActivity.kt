@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ManosLocalesTheme {
-                LoginScreen()
+                RegistroScreen()
             }
         }
     }
@@ -68,7 +68,7 @@ fun LoginScreen() {
         verticalArrangement = Arrangement.Center
     ) {
 
-        // Logo de la aplicación (coloca una imagen en res/drawable/logo.png)
+        // Logo de la aplicación
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Logo",
@@ -87,7 +87,7 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Campo de texto para el nombre de usuario
+        // Campo de texto nombre de usuario
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
@@ -99,7 +99,7 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo de texto para la contraseña
+        // Campo de texto contraseña
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -149,14 +149,52 @@ fun LoginScreen() {
         }
     }
 }
-//--------------------------------- Registrarse
+//--------------------------------- Registrarse Tiene validaciones
 @Composable
 fun RegistroScreen() {
-    // Estados para almacenar los datos del usuario
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+
+    var errorUsername by remember { mutableStateOf("") }
+    var errorEmail by remember { mutableStateOf("") }
+    var errorPassword by remember { mutableStateOf("") }
+    var errorConfirmPassword by remember { mutableStateOf("") }
+
+    // Función para validar campos al apretar el botón
+    fun validarCampos(): Boolean {
+        var esValido = true
+
+        // Validar nombre de usuario
+        errorUsername = if (username.isBlank()) {
+            esValido = false
+            "El usuario no puede estar vacío"
+        } else ""
+
+        // Validar email
+        errorEmail = if (email.isBlank()) {
+            esValido = false
+            "El email no puede estar vacío"
+        } else if (!isValidEmail(email)) {
+            esValido = false
+            "El email no es válido"
+        } else ""
+
+        // Validar contraseña
+        errorPassword = if (password.length < 6) {
+            esValido = false
+            "La contraseña debe tener al menos 6 caracteres"
+        } else ""
+
+        // Validar confirmación
+        errorConfirmPassword = if (confirmPassword != password) {
+            esValido = false
+            "Las contraseñas no coinciden"
+        } else ""
+
+        return esValido
+    }
 
     Column(
         modifier = Modifier
@@ -166,64 +204,92 @@ fun RegistroScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Registrarse", fontSize = 28.sp)
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Campo: Usuario
         OutlinedTextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = {
+                username = it
+                errorUsername = ""
+            },
             label = { Text("Nombre de usuario") },
+            isError = errorUsername.isNotEmpty(),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier.fillMaxWidth()
         )
+        if (errorUsername.isNotEmpty()) {
+            Text(errorUsername, color = MaterialTheme.colorScheme.error)
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Campo: Email
+        // Campo Email
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                errorEmail = ""
+            },
             label = { Text("Email") },
+            isError = errorEmail.isNotEmpty(),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
         )
+        if (errorEmail.isNotEmpty()) {
+            Text(errorEmail, color = MaterialTheme.colorScheme.error)
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Campo: Contraseña
+        // Campo Contraseña
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                password = it
+                errorPassword = ""
+            },
             label = { Text("Contraseña") },
+            isError = errorPassword.isNotEmpty(),
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             modifier = Modifier.fillMaxWidth()
         )
+        if (errorPassword.isNotEmpty()) {
+            Text(errorPassword, color = MaterialTheme.colorScheme.error)
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Campo: Confirmar contraseña
+        // Campo Confirmar contraseña
         OutlinedTextField(
             value = confirmPassword,
-            onValueChange = { confirmPassword = it },
+            onValueChange = {
+                confirmPassword = it
+                errorConfirmPassword = ""
+            },
             label = { Text("Confirmar contraseña") },
+            isError = errorConfirmPassword.isNotEmpty(),
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             modifier = Modifier.fillMaxWidth()
         )
+        if (errorConfirmPassword.isNotEmpty()) {
+            Text(errorConfirmPassword, color = MaterialTheme.colorScheme.error)
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Botón para crear la cuenta
+        // Botón para crear cuenta
         Button(
             onClick = {
-                // Validar campos (más adelante)
-                // Crear cuenta (todavía sin lógica real)
+                if (validarCampos()) {
+                    // Continuar con la lógica de guardado o navegación
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -232,13 +298,17 @@ fun RegistroScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Enlace opcional para volver al login
+        // Vuelta al login
         Text(
             text = "¿Ya tenés cuenta? Iniciá sesión",
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.clickable {
-                // En un futuro: volver al LoginActivity
+                // Navegar al login
             }
         )
     }
+}
+
+fun isValidEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
