@@ -201,6 +201,15 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Logo de la aplicación
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Logo",
+            modifier = Modifier
+                .size(120.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
         Text("Registrarse", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(16.dp))
 
