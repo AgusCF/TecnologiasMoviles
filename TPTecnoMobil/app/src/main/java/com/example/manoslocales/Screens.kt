@@ -170,7 +170,7 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
         Button(
             onClick = {
                 // Aquí iría la lógica de validación del login
-                onNavigate("feed")
+                onNavigate("feed")//Deberia llevarte al feed solo si las credenciales son correctas
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -355,6 +355,7 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
                 if (validarCampos()) {
                     // Continuar con la lógica de guardado o navegación
                 }
+                onNavigate("login")//Deberia llevarte al login solo si los campos estan bien cargados
             },
             modifier = Modifier.fillMaxWidth()
         ) {
