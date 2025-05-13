@@ -3,6 +3,7 @@
 package com.example.manoslocales
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +38,62 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.graphics.painter.Painter
+
+@Composable
+fun SplashScreen(logo: Painter, onNavigate: () -> Unit) {
+    // Usar un Column para centrar el contenido verticalmente
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White), // Color de fondo de la splash screen
+        verticalArrangement = Arrangement.Center, // Alinear verticalmente al centro
+        horizontalAlignment = Alignment.CenterHorizontally // Alinear horizontalmente al centro
+    ) {
+        // Mostrar el logo
+        Image(
+            painter = logo,
+            contentDescription = "Logo",
+            modifier = Modifier.size(200.dp) // Ajusta el tamaño según sea necesario
+        )
+
+        // Espaciador entre el logo y el texto
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Mostrar el mensaje adicional
+        Text(
+            text = "Bienvenido a la Aplicación",
+            style = TextStyle(fontSize = 24.sp),
+            color = Color.Black
+        )
+    }
+
+    // Aquí puedes usar un Timer o un delay para navegar a la siguiente pantalla después de un tiempo
+    LaunchedEffect(Unit) {
+        delay(3000) // Espera 3 segundos
+        onNavigate() // Navega a la siguiente pantalla
+    }
+}
+@Composable
+fun MainScreen() {
+    // Aquí puedes utilizar un estado para controlar si la pantalla de splash se debe mostrar
+    var isSplashScreenVisible by remember { mutableStateOf(true) }
+
+    // Cargar tu logo
+    val logo = painterResource(id = R.drawable.logo) // Asegúrate de que la ruta sea correcta
+
+    if (isSplashScreenVisible) {
+        SplashScreen(logo = logo) {
+            // Cuando termine la splash screen, cambia el estado
+            isSplashScreenVisible = false
+        }
+    } else {
+        // Aquí irían los contenidos de tu aplicación después de la splash screen
+        MainScreens() // Por ejemplo, tu contenido principal
+    }
+}
 
 @Composable
 fun MainScreens() {
