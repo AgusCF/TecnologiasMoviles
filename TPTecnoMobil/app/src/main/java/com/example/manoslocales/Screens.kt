@@ -1,9 +1,5 @@
 package com.example.manoslocales
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,26 +36,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.manoslocales.ui.theme.ManosLocalesTheme
 
+@Composable
+fun MainScreens() {
+    var currentScreen by remember { mutableStateOf("login") }
 
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ManosLocalesTheme {
-                MainScreens()
-            }
-        }
+    when (currentScreen) {
+        "login" -> LoginScreens(onNavigate = { currentScreen = it })
+        "registro" -> RegistroScreens(onNavigate = { currentScreen = it })
+        //"feed" -> FeedScreens(onNavigate = { currentScreen = it })
     }
 }
 
-
-//--------------------------------- LOGIN
 @Composable
-fun LoginScreen() {
+fun LoginScreens(onNavigate: (String) -> Unit) {
     // Estados para almacenar lo que escribe el usuario
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -147,16 +137,16 @@ fun LoginScreen() {
                 text = "Registrate",
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable {
-                    // Aquí se debería navegar a la pantalla de registro
-                    // Por ahora no hace nada
+                    // Aquí iría la lógica para navegar a la pantalla de registro
+                    onNavigate("registro")
                 }
             )
         }
     }
 }
-//--------------------------------- Registrarse Tiene validaciones
+
 @Composable
-fun RegistroScreen() {
+fun RegistroScreens(onNavigate: (String) -> Unit) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -177,11 +167,12 @@ fun RegistroScreen() {
             "El usuario no puede estar vacío"
         } else ""
 
+
         // Validar email
         errorEmail = if (email.isBlank()) {
             esValido = false
             "El email no puede estar vacío"
-        } else if (!isValidEmail(email)) {
+        } else if (!isValidEmails(email)) {
             esValido = false
             "El email no es válido"
         } else ""
@@ -309,11 +300,21 @@ fun RegistroScreen() {
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.clickable {
                 // Navegar al login
+                onNavigate("login")
             }
         )
     }
 }
 
-fun isValidEmail(email: String): Boolean {
+fun isValidEmails(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
+@Composable
+fun FeedScreens() {
+
+}
+@Composable
+fun SettingsScreens() {
+    // Implementación de la pantalla de Configuración
 }
