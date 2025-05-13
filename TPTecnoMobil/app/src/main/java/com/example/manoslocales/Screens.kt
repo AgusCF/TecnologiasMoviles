@@ -2,6 +2,7 @@
 
 package com.example.manoslocales
 
+import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,13 +14,16 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -42,6 +46,10 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.graphics.painter.Painter
 
+
+val RosaClaro = Color(0xFFFFC0CB)
+val RosaClaroTransparente = RosaClaro.copy(alpha = 0.4f)
+val RosaClaroSemi = RosaClaro.copy(alpha = 0.8f)
 @Composable
 fun SplashScreen(logo: Painter, onNavigate: () -> Unit) {
     // Usar un Column para centrar el contenido verticalmente
@@ -172,6 +180,10 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
                 // Aquí iría la lógica de validación del login
                 onNavigate("feed")//Deberia llevarte al feed solo si las credenciales son correctas
             },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = RosaClaroSemi,
+                contentColor = Color.Black
+            ),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Iniciar Sesión")
@@ -181,8 +193,11 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
             onClick = {
                 // Aquí iría la lógica de validación del login
             },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors( containerColor = Color.LightGray,contentColor = Color.Black)
+            colors = ButtonDefaults.buttonColors(
+                containerColor = RosaClaroTransparente,
+                contentColor = Color.Black
+            ),
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Olvide mi contraseña")
         }
@@ -357,6 +372,10 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
                 }
                 onNavigate("login")//Deberia llevarte al login solo si los campos estan bien cargados
             },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = RosaClaroSemi,
+                contentColor = Color.Black
+            ),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Crear cuenta")
@@ -402,15 +421,35 @@ fun FeedScreen(onNavigate: (String) -> Unit) {
     ) // Datos estáticos
 
     Column {
-        // TopAppBar con el ícono de engranaje
-        TopAppBar(
-            title = { Text("Manos Locales") },
-            actions = {
-                IconButton(onClick = { onNavigate("settings") }) {
-                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
-                }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                // Imagen del logo
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    modifier = Modifier.size(40.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                // Título de la app
+                Text(
+                    text = "Manos Locales",
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
-        )
+
+            // Botón de configuración (ícono de engranaje)
+            IconButton(onClick = { onNavigate("settings") }) {
+                Icon(Icons.Filled.Settings, contentDescription = "Settings")
+            }
+        }
+
+
 
         LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
             items(products.size) { index ->
@@ -422,14 +461,18 @@ fun FeedScreen(onNavigate: (String) -> Unit) {
 
 @Composable
 fun ProductCard(product: Product) {
-    Card(modifier = Modifier.padding(8.dp)) {
+    Card(
+        modifier = Modifier.padding(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = RosaClaroTransparente // Rosa claro con 40% de opacidad
+        )
+    ) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Usar el estilo de título grande en lugar de h6
             Text(
                 text = "Coming Soon",
                 style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
@@ -438,7 +481,10 @@ fun ProductCard(product: Product) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(product.description, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = product.description,
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }
@@ -450,9 +496,10 @@ fun SettingsScreens(onNavigate: (String) -> Unit) {
     var notificationFrequency by remember { mutableStateOf("Diariamente") }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        // Usar el estilo de título grande para la sección de categorías
+
         Text("Categorías de Productos", style = MaterialTheme.typography.titleLarge)
         val categories = listOf("Alimentos", "Textiles", "Artesanías")
+
         categories.forEach { category ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
@@ -463,13 +510,20 @@ fun SettingsScreens(onNavigate: (String) -> Unit) {
                         } else {
                             selectedCategories - category
                         }
-                    }
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = RosaClaro,
+                        uncheckedColor = RosaClaroSemi,
+                        checkmarkColor = Color.Black
+                    )
                 )
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(category)
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
         Text("Ubicación Preferida", style = MaterialTheme.typography.titleLarge)
         TextField(
             value = preferredLocation,
@@ -478,24 +532,38 @@ fun SettingsScreens(onNavigate: (String) -> Unit) {
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+
         Text("Tiempo de Notificaciones", style = MaterialTheme.typography.titleLarge)
         val frequencies = listOf("Cada hora", "Diariamente", "Semanalmente")
+
         frequencies.forEach { frequency ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = notificationFrequency == frequency,
-                    onClick = { notificationFrequency = frequency }
+                    onClick = { notificationFrequency = frequency },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = RosaClaro,
+                        unselectedColor = RosaClaroSemi
+                    )
                 )
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(frequency)
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
-            // Simulación del botón de guardar
-            println("Preferencias guardadas (simulado)")
-            onNavigate("feed")
-        }) {
+
+        Button(
+            onClick = {
+                println("Preferencias guardadas (simulado)")
+                onNavigate("feed")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = RosaClaroSemi,
+                contentColor = Color.Black
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text("Guardar")
         }
     }
