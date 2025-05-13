@@ -1,23 +1,27 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.manoslocales
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,13 +33,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun MainScreens() {
@@ -44,7 +44,8 @@ fun MainScreens() {
     when (currentScreen) {
         "login" -> LoginScreens(onNavigate = { currentScreen = it })
         "registro" -> RegistroScreens(onNavigate = { currentScreen = it })
-        //"feed" -> FeedScreens(onNavigate = { currentScreen = it })
+        "feed" -> FeedScreen(onNavigate = { currentScreen = it })
+        "settings" -> SettingsScreens(onNavigate = { currentScreen = it })
     }
 }
 
@@ -111,6 +112,7 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
         Button(
             onClick = {
                 // Aquí iría la lógica de validación del login
+                onNavigate("feed")
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -309,12 +311,124 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
 fun isValidEmails(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
+data class Product(val name: String, val description: String, val imageUrl: String)
 
 @Composable
-fun FeedScreens() {
+fun FeedScreen(onNavigate: (String) -> Unit) {
+    val products = listOf(
+        Product("Producto 1", "Descripción del producto 1", "url_imagen_1"),
+        Product("Producto 2", "Descripción del producto 2", "url_imagen_2"),
+        Product("Producto 3", "Descripción del producto 3", "url_imagen_3"),
+        Product("Producto 1", "Descripción del producto 4", "url_imagen_4"),
+        Product("Producto 2", "Descripción del producto 5", "url_imagen_5"),
+        Product("Producto 1", "Descripción del producto 6", "url_imagen_6"),
+        Product("Producto 2", "Descripción del producto 7", "url_imagen_7"),
+        Product("Producto 1", "Descripción del producto 8", "url_imagen_8"),
+        Product("Producto 2", "Descripción del producto 9", "url_imagen_9"),
+        Product("Producto 1", "Descripción del producto 10", "url_imagen_10"),
+        Product("Producto 2", "Descripción del producto 11", "url_imagen_11"),
+        Product("Producto 1", "Descripción del producto 12", "url_imagen_12"),
+        Product("Producto 2", "Descripción del producto 13", "url_imagen_13"),
+        Product("Producto 1", "Descripción del producto 14", "url_imagen_14"),
+        Product("Producto 2", "Descripción del producto 15", "url_imagen_15"),
+    ) // Datos estáticos
 
+    Column {
+        // TopAppBar con el ícono de engranaje
+        TopAppBar(
+            title = { Text("Manos Locales") },
+            actions = {
+                IconButton(onClick = { onNavigate("settings") }) {
+                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                }
+            }
+        )
+
+        LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
+            items(products.size) { index ->
+                ProductCard(product = products[index])
+            }
+        }
+    }
 }
+
 @Composable
-fun SettingsScreens() {
-    // Implementación de la pantalla de Configuración
+fun ProductCard(product: Product) {
+    Card(modifier = Modifier.padding(8.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Usar el estilo de título grande en lugar de h6
+            Text(
+                text = "Coming Soon",
+                style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(product.description, style = MaterialTheme.typography.bodyLarge)
+        }
+    }
+}
+
+@Composable
+fun SettingsScreens(onNavigate: (String) -> Unit) {
+    var selectedCategories by remember { mutableStateOf(listOf<String>()) }
+    var preferredLocation by remember { mutableStateOf("") }
+    var notificationFrequency by remember { mutableStateOf("Diariamente") }
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        // Usar el estilo de título grande para la sección de categorías
+        Text("Categorías de Productos", style = MaterialTheme.typography.titleLarge)
+        val categories = listOf("Alimentos", "Textiles", "Artesanías")
+        categories.forEach { category ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = selectedCategories.contains(category),
+                    onCheckedChange = { isChecked ->
+                        selectedCategories = if (isChecked) {
+                            selectedCategories + category
+                        } else {
+                            selectedCategories - category
+                        }
+                    }
+                )
+                Text(category)
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Ubicación Preferida", style = MaterialTheme.typography.titleLarge)
+        TextField(
+            value = preferredLocation,
+            onValueChange = { preferredLocation = it },
+            label = { Text("Ciudad o Región") }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Tiempo de Notificaciones", style = MaterialTheme.typography.titleLarge)
+        val frequencies = listOf("Cada hora", "Diariamente", "Semanalmente")
+        frequencies.forEach { frequency ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RadioButton(
+                    selected = notificationFrequency == frequency,
+                    onClick = { notificationFrequency = frequency }
+                )
+                Text(frequency)
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+            // Simulación del botón de guardar
+            println("Preferencias guardadas (simulado)")
+            onNavigate("feed")
+        }) {
+            Text("Guardar")
+        }
+    }
 }
