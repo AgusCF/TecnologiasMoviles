@@ -45,11 +45,14 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.activity.compose.BackHandler
+
 
 
 val RosaClaro = Color(0xFFFFC0CB)
 val RosaClaroTransparente = RosaClaro.copy(alpha = 0.4f)
 val RosaClaroSemi = RosaClaro.copy(alpha = 0.8f)
+val RosaClaroSemi2 = RosaClaro.copy(alpha = 0.5f)
 @Composable
 fun SplashScreen(logo: Painter, onNavigate: () -> Unit) {
     // Usar un Column para centrar el contenido verticalmente
@@ -421,6 +424,7 @@ fun FeedScreen(onNavigate: (String) -> Unit) {
     ) // Datos estáticos
 
     Column {
+        Spacer(modifier = Modifier.height(32.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -430,6 +434,7 @@ fun FeedScreen(onNavigate: (String) -> Unit) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 // Imagen del logo
+                Spacer(modifier = Modifier.width(64.dp))
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Logo",
@@ -495,8 +500,13 @@ fun SettingsScreens(onNavigate: (String) -> Unit) {
     var preferredLocation by remember { mutableStateOf("") }
     var notificationFrequency by remember { mutableStateOf("Diariamente") }
 
+    // Manejar el botón de retroceso
+    BackHandler {
+        onNavigate("feed") // Navegar de regreso al feed
+    }
     Column(modifier = Modifier.padding(16.dp)) {
 
+        Spacer(modifier = Modifier.height(32.dp))
         Text("Categorías de Productos", style = MaterialTheme.typography.titleLarge)
         val categories = listOf("Alimentos", "Textiles", "Artesanías")
 
@@ -565,6 +575,21 @@ fun SettingsScreens(onNavigate: (String) -> Unit) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Guardar")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                println("Preferencias no guardadas (simulado)")
+                onNavigate("feed")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = RosaClaroSemi2,
+                contentColor = Color.Black
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Cancelar")
         }
     }
 }
