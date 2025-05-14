@@ -11,8 +11,7 @@
   - [Requisitos](#requisitos)
     - [Requerimientos Funcionales](#requerimientos-funcionales)
     - [Requerimientos No Funcionales](#requerimientos-no-funcionales)
-  - [Estructura del Proyecto](#estructura-del-proyecto)
-  - [Demostracion de la APP](#demostracion-de-la-app)
+  - [Demostración de la APP](#demostración-de-la-app)
     - [Video de demostración](#video-de-demostración)
 
 ## Descripción
@@ -57,24 +56,8 @@ La aplicación **Manos Locales** permite a los usuarios:
 4. Gestión de permisos para funcionalidades como ubicación.
 5. Código limpio y organizado siguiendo el patrón **MVVM**.
 
-## Estructura del Proyecto
+## Demostración de la APP  
 
-TPTecnoMobil/
-├── app/                     # Contiene el código fuente principal de la aplicación
-│   ├── src/                 # Código fuente dividido en módulos 
-│   │   ├── main/            # Código principal de la aplicación
-│   │   │   ├── java/        # Archivos de código Kotlin
-│   │   │   ├── res/         # Recursos como layouts, imágenes y cadenas
-│   │   │   └── AndroidManifest.xml # Configuración del manifiesto de la aplicación
-│   │   └── test/            # Pruebas unitarias
-├── build.gradle.kts         # Configuración de Gradle para el proyecto
-├── gradle/                  # Configuración adicional de Gradle
-├── gradlew                  # Script para ejecutar Gradle en Linux/Mac
-├── gradlew.bat              # Script para ejecutar Gradle en Windows
-├── settings.gradle.kts      # Configuración de los módulos del proyecto
-└── README.md                # Documentación del proyecto
+### Video de demostración  
 
-## Demostracion de la APP
-### Video de demostración
-
-[Ver el video](./Demo1.0.mp4)
+[![Demostración](https://img.youtube.com/vi/MOTWjyGQ-qE/0.jpg)](https://youtube.com/shorts/MOTWjyGQ-qE?feature=share "Demostración Funcionamiento APP")
