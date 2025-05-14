@@ -4,15 +4,16 @@
 
 ## Tabla de Contenidos
 
-- [Descripción](#descripción)
-- [Características Principales](#características-principales)
-- [Requisitos](#requisitos)
-  - [Requerimientos Funcionales](#requerimientos-funcionales)
-  - [Requerimientos No Funcionales](#requerimientos-no-funcionales)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Cómo Ejecutar el Proyecto](#cómo-ejecutar-el-proyecto)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Autores](#autores)
+- [Manos Locales](#manos-locales)
+  - [Tabla de Contenidos](#tabla-de-contenidos)
+  - [Descripción](#descripción)
+  - [Características Principales](#características-principales)
+  - [Requisitos](#requisitos)
+    - [Requerimientos Funcionales](#requerimientos-funcionales)
+    - [Requerimientos No Funcionales](#requerimientos-no-funcionales)
+  - [Estructura del Proyecto](#estructura-del-proyecto)
+  - [Demostracion de la APP](#demostracion-de-la-app)
+    - [Video de demostración](#video-de-demostración)
 
 ## Descripción
 
@@ -60,7 +61,7 @@ La aplicación **Manos Locales** permite a los usuarios:
 
 TPTecnoMobil/
 ├── app/                     # Contiene el código fuente principal de la aplicación
-│   ├── src/                 # Código fuente dividido en módulos
+│   ├── src/                 # Código fuente dividido en módulos 
 │   │   ├── main/            # Código principal de la aplicación
 │   │   │   ├── java/        # Archivos de código Kotlin
 │   │   │   ├── res/         # Recursos como layouts, imágenes y cadenas
@@ -74,3 +75,6 @@ TPTecnoMobil/
 └── README.md                # Documentación del proyecto
 
 ## Demostracion de la APP
+### Video de demostración
+
+[Ver el video](./Demo1.0.mp4)
