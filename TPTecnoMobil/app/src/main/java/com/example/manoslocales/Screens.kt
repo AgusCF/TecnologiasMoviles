@@ -2,12 +2,14 @@
 
 package com.example.manoslocales
 
-import android.text.style.BackgroundColorSpan
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -26,7 +28,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,20 +35,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.activity.compose.BackHandler
-
-
 
 val RosaClaro = Color(0xFFFFC0CB)
 val RosaClaroTransparente = RosaClaro.copy(alpha = 0.4f)
@@ -401,64 +400,70 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
 fun isValidEmails(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
-data class Product(val name: String, val description: String, val imageUrl: String)
 
-@Composable
-fun FeedScreen(onNavigate: (String) -> Unit) {
-    val products = listOf(
-        Product("Producto 1", "Descripción del producto 1", "url_imagen_1"),
-        Product("Producto 2", "Descripción del producto 2", "url_imagen_2"),
-        Product("Producto 3", "Descripción del producto 3", "url_imagen_3"),
-        Product("Producto 1", "Descripción del producto 4", "url_imagen_4"),
-        Product("Producto 2", "Descripción del producto 5", "url_imagen_5"),
-        Product("Producto 1", "Descripción del producto 6", "url_imagen_6"),
-        Product("Producto 2", "Descripción del producto 7", "url_imagen_7"),
-        Product("Producto 1", "Descripción del producto 8", "url_imagen_8"),
-        Product("Producto 2", "Descripción del producto 9", "url_imagen_9"),
-        Product("Producto 1", "Descripción del producto 10", "url_imagen_10"),
-        Product("Producto 2", "Descripción del producto 11", "url_imagen_11"),
-        Product("Producto 1", "Descripción del producto 12", "url_imagen_12"),
-        Product("Producto 2", "Descripción del producto 13", "url_imagen_13"),
-        Product("Producto 1", "Descripción del producto 14", "url_imagen_14"),
-        Product("Producto 2", "Descripción del producto 15", "url_imagen_15"),
-    ) // Datos estáticos
+// Asegúrate de que la clase Product es la misma
+data class Product(val name: String, val description: String, val imageUrl: Int)
 
-    Column {
-        Spacer(modifier = Modifier.height(32.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                // Imagen del logo
-                Spacer(modifier = Modifier.width(64.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(40.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                // Título de la app
-                Text(
-                    text = "Manos Locales",
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
+@Composable  
+fun FeedScreen(onNavigate: (String) -> Unit) {  
+    val products = listOf(  
+        Product("Producto 1", "Descripción del producto 1", R.drawable.producto1),  
+        Product("Producto 2", "Descripción del producto 2", R.drawable.producto2),  
+        Product("Producto 3", "Descripción del producto 3", R.drawable.producto3),  
+        Product("Producto 4", "Descripción del producto 4", R.drawable.producto4),  
+        Product("Producto 5", "Descripción del producto 5", R.drawable.producto5),  
+        Product("Producto 6", "Descripción del producto 6", R.drawable.producto6),  
+        Product("Producto 7", "Descripción del producto 7", R.drawable.producto7),  
+        Product("Producto 8", "Descripción del producto 8", R.drawable.producto8),  
+        Product("Producto 9", "Descripción del producto 9", R.drawable.producto9),
+        Product("Producto 10", "Descripción del producto 10", R.drawable.producto10),
+        Product("Producto 11", "Descripción del producto 10", R.drawable.producto11),
+        Product("Producto 12", "Descripción del producto 10", R.drawable.producto12),
+        Product("Producto 13", "Descripción del producto 10", R.drawable.producto13),
+        Product("Producto 14", "Descripción del producto 10", R.drawable.producto14),
+        Product("Producto 15", "Descripción del producto 10", R.drawable.producto15),
+        Product("Producto 16", "Descripción del producto 10", R.drawable.producto16),
+        Product("Producto 17", "Descripción del producto 10", R.drawable.producto17),
+        Product("Producto 18", "Descripción del producto 10", R.drawable.producto18),
+        Product("Producto 19", "Descripción del producto 10", R.drawable.producto19),
+        Product("Producto 20", "Descripción del producto 10", R.drawable.producto20),
+    ) // Datos estáticos  
 
-            // Botón de configuración (ícono de engranaje)
-            IconButton(onClick = { onNavigate("settings") }) {
-                Icon(Icons.Filled.Settings, contentDescription = "Settings")
-            }
+    Column {  
+        Spacer(modifier = Modifier.height(32.dp))  
+        Row(  
+            modifier = Modifier  
+                .fillMaxWidth()  
+                .padding(16.dp),  
+            verticalAlignment = Alignment.CenterVertically,  
+            horizontalArrangement = Arrangement.SpaceBetween  
+        ) {  
+            Row(verticalAlignment = Alignment.CenterVertically) {  
+                // Imagen del logo  
+                Spacer(modifier = Modifier.width(64.dp))  
+                Image(  
+                    contentDescription = "Logo",  
+                    painter = painterResource(id = R.drawable.logo),  
+                    modifier = Modifier.size(40.dp)  
+                )  
+                Spacer(modifier = Modifier.width(8.dp))  
+                // Título de la app  
+                Text(  
+                    text = "Manos Locales",  
+                    style = MaterialTheme.typography.titleLarge  
+                )  
+            }  
+
+            // Botón de configuración (ícono de engranaje)  
+            IconButton(onClick = { onNavigate("settings") }) {  
+                Icon(Icons.Filled.Settings, contentDescription = "Settings")  
+            }  
         }
 
-
-
+        // Uso correcto de items
         LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
-            items(products.size) { index ->
-                ProductCard(product = products[index])
+            items(products) { product -> // Aquí pasamos directamente la lista de productos
+                ProductCard(product = product)
             }
         }
     }
@@ -468,32 +473,41 @@ fun FeedScreen(onNavigate: (String) -> Unit) {
 fun ProductCard(product: Product) {
     Card(
         modifier = Modifier.padding(8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = RosaClaroTransparente // Rosa claro con 40% de opacidad
-        )
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = RosaClaroTransparente)
     ) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = CenterHorizontally
         ) {
+            // Mostrar la imagen del producto
+            Image(
+                painter = painterResource(id = product.imageUrl),
+                contentDescription = product.name,
+                modifier = Modifier.size(120.dp)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Mostrar el nombre del producto
             Text(
-                text = "Coming Soon",
-                style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                text = product.name,
+                style = MaterialTheme.typography.headlineMedium.copy(fontSize = 20.sp),
                 textAlign = TextAlign.Center
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Mostrar la descripción del producto
             Text(
                 text = product.description,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodySmall // Para mantener la consistencia
             )
         }
     }
 }
-
 @Composable
 fun SettingsScreens(onNavigate: (String) -> Unit) {
     var selectedCategories by remember { mutableStateOf(listOf<String>()) }
