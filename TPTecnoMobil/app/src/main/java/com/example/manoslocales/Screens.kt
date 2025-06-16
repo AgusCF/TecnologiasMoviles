@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.manoslocales
 
 import androidx.activity.compose.BackHandler
@@ -13,29 +11,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -52,56 +30,45 @@ val RosaClaro = Color(0xFFFFC0CB)
 val RosaClaroTransparente = RosaClaro.copy(alpha = 0.4f)
 val RosaClaroSemi = RosaClaro.copy(alpha = 0.8f)
 val RosaClaroSemi2 = RosaClaro.copy(alpha = 0.5f)
+
 @Composable
 fun SplashScreen(logo: Painter, onNavigate: () -> Unit) {
-    // Usar un Column para centrar el contenido verticalmente
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White), // Color de fondo de la splash screen
-        verticalArrangement = Arrangement.Center, // Alinear verticalmente al centro
-        horizontalAlignment = Alignment.CenterHorizontally // Alinear horizontalmente al centro
+            .background(Color.White),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Mostrar el logo
         Image(
             painter = logo,
             contentDescription = "Logo",
-            modifier = Modifier.size(200.dp) // Ajusta el tamaño según sea necesario
+            modifier = Modifier.size(200.dp)
         )
-
-        // Espaciador entre el logo y el texto
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Mostrar el mensaje adicional
         Text(
             text = "Bienvenido a la Aplicación",
             style = TextStyle(fontSize = 24.sp),
             color = Color.Black
         )
     }
-
-    // Aquí puedes usar un Timer o un delay para navegar a la siguiente pantalla después de un tiempo
     LaunchedEffect(Unit) {
-        delay(3000) // Espera 3 segundos
-        onNavigate() // Navega a la siguiente pantalla
+        delay(3000)
+        onNavigate()
     }
 }
+
 @Composable
 fun MainScreen() {
-    // Aquí puedes utilizar un estado para controlar si la pantalla de splash se debe mostrar
     var isSplashScreenVisible by remember { mutableStateOf(true) }
-
-    // Cargar tu logo
-    val logo = painterResource(id = R.drawable.logo) // Asegúrate de que la ruta sea correcta
+    val logo = painterResource(id = R.drawable.logo)
 
     if (isSplashScreenVisible) {
         SplashScreen(logo = logo) {
-            // Cuando termine la splash screen, cambia el estado
             isSplashScreenVisible = false
         }
     } else {
-        // Aquí irían los contenidos de tu aplicación después de la splash screen
-        MainScreens() // Por ejemplo, tu contenido principal
+        MainScreens()
     }
 }
 
@@ -119,11 +86,9 @@ fun MainScreens() {
 
 @Composable
 fun LoginScreens(onNavigate: (String) -> Unit) {
-    // Estados para almacenar lo que escribe el usuario
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Layout principal
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -131,27 +96,18 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-        // Logo de la aplicación
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Logo",
-            modifier = Modifier
-                .size(120.dp)
+            modifier = Modifier.size(120.dp)
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Título de bienvenida
         Text(
             text = "Bienvenido",
             fontSize = 28.sp,
             color = Color.Black
         )
-
         Spacer(modifier = Modifier.height(24.dp))
-
-        // Campo de texto nombre de usuario
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
@@ -160,10 +116,7 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Campo de texto contraseña
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -173,15 +126,9 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.height(24.dp))
-
-        // Botón de iniciar sesión
         Button(
-            onClick = {
-                // Aquí iría la lógica de validación del login
-                onNavigate("feed")//Deberia llevarte al feed solo si las credenciales son correctas
-            },
+            onClick = { onNavigate("feed") },
             colors = ButtonDefaults.buttonColors(
                 containerColor = RosaClaroSemi,
                 contentColor = Color.Black
@@ -190,11 +137,8 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
         ) {
             Text("Iniciar Sesión")
         }
-        //Boton de olvide mi contrasenia
         Button(
-            onClick = {
-                // Aquí iría la lógica de validación del login
-            },
+            onClick = { },
             colors = ButtonDefaults.buttonColors(
                 containerColor = RosaClaroTransparente,
                 contentColor = Color.Black
@@ -203,20 +147,14 @@ fun LoginScreens(onNavigate: (String) -> Unit) {
         ) {
             Text("Olvide mi contraseña")
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Texto para registrarse
         Row {
             Text("¿No tenés cuenta?")
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "Registrate",
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable {
-                    // Aquí iría la lógica para navegar a la pantalla de registro
-                    onNavigate("registro")
-                }
+                modifier = Modifier.clickable { onNavigate("registro") }
             )
         }
     }
@@ -234,18 +172,12 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
     var errorPassword by remember { mutableStateOf("") }
     var errorConfirmPassword by remember { mutableStateOf("") }
 
-    // Función para validar campos al apretar el botón
     fun validarCampos(): Boolean {
         var esValido = true
-
-        // Validar nombre de usuario
         errorUsername = if (username.isBlank()) {
             esValido = false
             "El usuario no puede estar vacío"
         } else ""
-
-
-        // Validar email
         errorEmail = if (email.isBlank()) {
             esValido = false
             "El email no puede estar vacío"
@@ -253,19 +185,14 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
             esValido = false
             "El email no es válido"
         } else ""
-
-        // Validar contraseña
         errorPassword = if (password.length < 6) {
             esValido = false
             "La contraseña debe tener al menos 6 caracteres"
         } else ""
-
-        // Validar confirmación
         errorConfirmPassword = if (confirmPassword != password) {
             esValido = false
             "Las contraseñas no coinciden"
         } else ""
-
         return esValido
     }
 
@@ -276,19 +203,14 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Logo de la aplicación
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Logo",
-            modifier = Modifier
-                .size(120.dp)
+            modifier = Modifier.size(120.dp)
         )
-
         Spacer(modifier = Modifier.height(16.dp))
         Text("Registrarse", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Campo: Usuario
         OutlinedTextField(
             value = username,
             onValueChange = {
@@ -304,10 +226,7 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
         if (errorUsername.isNotEmpty()) {
             Text(errorUsername, color = MaterialTheme.colorScheme.error)
         }
-
         Spacer(modifier = Modifier.height(8.dp))
-
-        // Campo Email
         OutlinedTextField(
             value = email,
             onValueChange = {
@@ -323,10 +242,7 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
         if (errorEmail.isNotEmpty()) {
             Text(errorEmail, color = MaterialTheme.colorScheme.error)
         }
-
         Spacer(modifier = Modifier.height(8.dp))
-
-        // Campo Contraseña
         OutlinedTextField(
             value = password,
             onValueChange = {
@@ -343,10 +259,7 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
         if (errorPassword.isNotEmpty()) {
             Text(errorPassword, color = MaterialTheme.colorScheme.error)
         }
-
         Spacer(modifier = Modifier.height(8.dp))
-
-        // Campo Confirmar contraseña
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = {
@@ -363,16 +276,12 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
         if (errorConfirmPassword.isNotEmpty()) {
             Text(errorConfirmPassword, color = MaterialTheme.colorScheme.error)
         }
-
         Spacer(modifier = Modifier.height(24.dp))
-
-        // Botón para crear cuenta
         Button(
             onClick = {
                 if (validarCampos()) {
-                    // Continuar con la lógica de guardado o navegación
+                    onNavigate("login")
                 }
-                onNavigate("login")//Deberia llevarte al login solo si los campos estan bien cargados
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = RosaClaroSemi,
@@ -382,17 +291,11 @@ fun RegistroScreens(onNavigate: (String) -> Unit) {
         ) {
             Text("Crear cuenta")
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Vuelta al login
         Text(
             text = "¿Ya tenés cuenta? Iniciá sesión",
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.clickable {
-                // Navegar al login
-                onNavigate("login")
-            }
+            modifier = Modifier.clickable { onNavigate("login") }
         )
     }
 }
@@ -401,20 +304,19 @@ fun isValidEmails(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
-// Asegúrate de que la clase Product es la misma
 data class Product(val name: String, val description: String, val imageUrl: Int)
 
-@Composable  
-fun FeedScreen(onNavigate: (String) -> Unit) {  
-    val products = listOf(  
-        Product("Producto 1", "Descripción del producto 1", R.drawable.producto1),  
-        Product("Producto 2", "Descripción del producto 2", R.drawable.producto2),  
-        Product("Producto 3", "Descripción del producto 3", R.drawable.producto3),  
-        Product("Producto 4", "Descripción del producto 4", R.drawable.producto4),  
-        Product("Producto 5", "Descripción del producto 5", R.drawable.producto5),  
-        Product("Producto 6", "Descripción del producto 6", R.drawable.producto6),  
-        Product("Producto 7", "Descripción del producto 7", R.drawable.producto7),  
-        Product("Producto 8", "Descripción del producto 8", R.drawable.producto8),  
+@Composable
+fun FeedScreen(onNavigate: (String) -> Unit) {
+    val products = listOf(
+        Product("Producto 1", "Descripción del producto 1", R.drawable.producto1),
+        Product("Producto 2", "Descripción del producto 2", R.drawable.producto2),
+        Product("Producto 3", "Descripción del producto 3", R.drawable.producto3),
+        Product("Producto 4", "Descripción del producto 4", R.drawable.producto4),
+        Product("Producto 5", "Descripción del producto 5", R.drawable.producto5),
+        Product("Producto 6", "Descripción del producto 6", R.drawable.producto6),
+        Product("Producto 7", "Descripción del producto 7", R.drawable.producto7),
+        Product("Producto 8", "Descripción del producto 8", R.drawable.producto8),
         Product("Producto 9", "Descripción del producto 9", R.drawable.producto9),
         Product("Producto 10", "Descripción del producto 10", R.drawable.producto10),
         Product("Producto 11", "Descripción del producto 10", R.drawable.producto11),
@@ -427,42 +329,36 @@ fun FeedScreen(onNavigate: (String) -> Unit) {
         Product("Producto 18", "Descripción del producto 10", R.drawable.producto18),
         Product("Producto 19", "Descripción del producto 10", R.drawable.producto19),
         Product("Producto 20", "Descripción del producto 10", R.drawable.producto20),
-    ) // Datos estáticos  
+    )
 
-    Column {  
-        Spacer(modifier = Modifier.height(32.dp))  
-        Row(  
-            modifier = Modifier  
-                .fillMaxWidth()  
-                .padding(16.dp),  
-            verticalAlignment = Alignment.CenterVertically,  
-            horizontalArrangement = Arrangement.SpaceBetween  
-        ) {  
-            Row(verticalAlignment = Alignment.CenterVertically) {  
-                // Imagen del logo  
-                Spacer(modifier = Modifier.width(64.dp))  
-                Image(  
-                    contentDescription = "Logo",  
-                    painter = painterResource(id = R.drawable.logo),  
-                    modifier = Modifier.size(40.dp)  
-                )  
-                Spacer(modifier = Modifier.width(8.dp))  
-                // Título de la app  
-                Text(  
-                    text = "Manos Locales",  
-                    style = MaterialTheme.typography.titleLarge  
-                )  
-            }  
-
-            // Botón de configuración (ícono de engranaje)  
-            IconButton(onClick = { onNavigate("settings") }) {  
-                Icon(Icons.Filled.Settings, contentDescription = "Settings")  
-            }  
+    Column {
+        Spacer(modifier = Modifier.height(32.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.width(64.dp))
+                Image(
+                    contentDescription = "Logo",
+                    painter = painterResource(id = R.drawable.logo),
+                    modifier = Modifier.size(40.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Manos Locales",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+            IconButton(onClick = { onNavigate("settings") }) {
+                Icon(Icons.Filled.Settings, contentDescription = "Settings")
+            }
         }
-
-        // Uso correcto de items
         LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
-            items(products) { product -> // Aquí pasamos directamente la lista de productos
+            items(products) { product ->
                 ProductCard(product = product)
             }
         }
@@ -480,46 +376,39 @@ fun ProductCard(product: Product) {
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            horizontalAlignment = CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Mostrar la imagen del producto
             Image(
                 painter = painterResource(id = product.imageUrl),
                 contentDescription = product.name,
                 modifier = Modifier.size(120.dp)
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Mostrar el nombre del producto
             Text(
                 text = product.name,
                 style = MaterialTheme.typography.headlineMedium.copy(fontSize = 20.sp),
                 textAlign = TextAlign.Center
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Mostrar la descripción del producto
             Text(
                 text = product.description,
-                style = MaterialTheme.typography.bodySmall // Para mantener la consistencia
+                style = MaterialTheme.typography.bodySmall
             )
         }
     }
 }
+
 @Composable
 fun SettingsScreens(onNavigate: (String) -> Unit) {
     var selectedCategories by remember { mutableStateOf(listOf<String>()) }
     var preferredLocation by remember { mutableStateOf("") }
     var notificationFrequency by remember { mutableStateOf("Diariamente") }
 
-    // Manejar el botón de retroceso
     BackHandler {
-        onNavigate("feed") // Navegar de regreso al feed
+        onNavigate("feed")
     }
-    Column(modifier = Modifier.padding(16.dp)) {
 
+    Column(modifier = Modifier.padding(16.dp)) {
         Spacer(modifier = Modifier.height(32.dp))
         Text("Categorías de Productos", style = MaterialTheme.typography.titleLarge)
         val categories = listOf("Alimentos", "Textiles", "Artesanías")
