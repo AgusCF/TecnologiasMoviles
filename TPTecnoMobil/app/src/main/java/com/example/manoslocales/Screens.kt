@@ -1,3 +1,4 @@
+/*
 package com.example.manoslocales
 
 import androidx.activity.compose.BackHandler
@@ -496,3 +497,4 @@ fun SettingsScreens(onNavigate: (String) -> Unit) {
         }
     }
 }
+ */

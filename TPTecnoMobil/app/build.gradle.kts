@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.support.annotations)
     implementation(libs.androidx.navigation.compose.jvmstubs)
+    implementation(libs.androidx.games.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
