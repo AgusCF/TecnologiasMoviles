@@ -13,6 +13,9 @@ supportAnnotations = "28.0.0"
 navigationComposeJvmstubs = "2.9.0"
 adsMobileSdk = "0.15.1-alpha01"
 gamesActivity = "4.0.0"
+roomCommonJvm = "2.7.1"
+roomRuntimeAndroid = "2.7.1"
+tracingPerfettoHandshake = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +37,9 @@ support-annotations = { group = "com.android.support", name = "support-annotatio
 androidx-navigation-compose-jvmstubs = { group = "androidx.navigation", name = "navigation-compose-jvmstubs", version.ref = "navigationComposeJvmstubs" }
 ads-mobile-sdk = { group = "com.google.android.libraries.ads.mobile.sdk", name = "ads-mobile-sdk", version.ref = "adsMobileSdk" }
 androidx-games-activity = { group = "androidx.games", name = "games-activity", version.ref = "gamesActivity" }
+androidx-room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
+androidx-room-runtime-android = { group = "androidx.room", name = "room-runtime-android", version.ref = "roomRuntimeAndroid" }
+androidx-tracing-perfetto-handshake = { group = "androidx.tracing", name = "tracing-perfetto-handshake", version.ref = "tracingPerfettoHandshake" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
