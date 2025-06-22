@@ -1,4 +1,4 @@
-package com.example.manoslocales.ui.screens
+package com.example.manoslocales.ui.screens.mainmenu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

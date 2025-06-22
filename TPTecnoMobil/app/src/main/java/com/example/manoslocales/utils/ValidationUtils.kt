@@ -1,4 +1,4 @@
-package com.example.manoslocales.ui.utils
+package com.example.manoslocales.utils
 
 import android.util.Patterns
 

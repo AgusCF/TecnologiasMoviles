@@ -1,18 +1,18 @@
-package com.example.manoslocales
+package com.example.manoslocales.ui.screens.authentication
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.manoslocales.ui.screens.mainmenu.MainScreenSplash
+import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
-            MainScreenSplash()
-
+            LoginScreen()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.manoslocales.ui.screens
+package com.example.manoslocales.ui.screens.mainmenu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
